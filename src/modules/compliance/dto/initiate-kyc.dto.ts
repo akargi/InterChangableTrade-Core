@@ -13,7 +13,8 @@ export class InitiateKycDto {
   )
   @IsString()
   @Matches(/^[A-Z]{2}$/, {
-    message: 'region must be an ISO 3166-1 alpha-2 country code (e.g. US, DE, JP)',
+    message:
+      'region must be an ISO 3166-1 alpha-2 country code (e.g. US, DE, JP)',
   })
   region: string;
 

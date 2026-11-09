@@ -36,9 +36,7 @@ import {
 @UseGuards(JwtAuthGuard)
 @Controller('liquidity')
 export class LiquidityAggregatorController {
-  constructor(
-    private readonly aggregatorService: LiquidityAggregatorService,
-  ) {}
+  constructor(private readonly aggregatorService: LiquidityAggregatorService) {}
 
   // ─── Pool Registry ──────────────────────────────────────────────────────
 
@@ -99,9 +97,12 @@ export class LiquidityAggregatorController {
   @ApiOperation({
     summary: 'Find the optimal swap route for a token pair',
     description:
-      'Uses modified Dijkstra\'s algorithm considering price impact, gas fees, slippage, and pool liquidity depth. Target: <100ms response.',
+      "Uses modified Dijkstra's algorithm considering price impact, gas fees, slippage, and pool liquidity depth. Target: <100ms response.",
   })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Best route with simulation' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Best route with simulation',
+  })
   @HttpCode(HttpStatus.OK)
   async findBestRoute(@Body() dto: FindRouteDto) {
     return this.aggregatorService.findBestRoute(dto);
@@ -126,7 +127,10 @@ export class LiquidityAggregatorController {
     description:
       'Automatically determines optimal allocation across pools to minimize price impact.',
   })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Optimal split allocation' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Optimal split allocation',
+  })
   @HttpCode(HttpStatus.OK)
   async splitRoute(@Body() dto: SplitRouteDto) {
     return this.aggregatorService.splitRoute(dto);
@@ -137,8 +141,7 @@ export class LiquidityAggregatorController {
   @Post('price-impact')
   @ApiOperation({
     summary: 'Estimate price impact for a given order size',
-    description:
-      'Predicts price movement across pools. Target: 95%+ accuracy.',
+    description: 'Predicts price movement across pools. Target: 95%+ accuracy.',
   })
   @ApiResponse({ status: HttpStatus.OK, description: 'Price impact estimates' })
   @HttpCode(HttpStatus.OK)

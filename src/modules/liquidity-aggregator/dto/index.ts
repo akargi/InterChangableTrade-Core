@@ -94,7 +94,10 @@ export class QueryPoolsDto {
 }
 
 export class RefreshPoolDto {
-  @ApiPropertyOptional({ description: 'Specific pool ID to refresh. Omit to refresh all active pools.' })
+  @ApiPropertyOptional({
+    description:
+      'Specific pool ID to refresh. Omit to refresh all active pools.',
+  })
   @IsOptional()
   @IsUUID()
   poolId?: string;
@@ -167,7 +170,10 @@ export class FindRouteDto {
   @Max(6)
   maxHops?: number = 4;
 
-  @ApiPropertyOptional({ description: 'Maximum acceptable price impact (0-1)', default: 0.05 })
+  @ApiPropertyOptional({
+    description: 'Maximum acceptable price impact (0-1)',
+    default: 0.05,
+  })
   @IsOptional()
   @IsNumber()
   @Min(0)
@@ -176,7 +182,10 @@ export class FindRouteDto {
 }
 
 export class FindMultiRouteDto extends FindRouteDto {
-  @ApiPropertyOptional({ description: 'Number of alternative routes to return', default: 3 })
+  @ApiPropertyOptional({
+    description: 'Number of alternative routes to return',
+    default: 3,
+  })
   @IsOptional()
   @IsNumber()
   @Min(1)
@@ -185,7 +194,10 @@ export class FindMultiRouteDto extends FindRouteDto {
 }
 
 export class SplitRouteDto extends FindRouteDto {
-  @ApiPropertyOptional({ description: 'Number of splits across pools', default: 3 })
+  @ApiPropertyOptional({
+    description: 'Number of splits across pools',
+    default: 3,
+  })
   @IsOptional()
   @IsNumber()
   @Min(2)
@@ -221,7 +233,10 @@ export class EstimatePriceImpactDto {
   @Min(0)
   amountIn: number;
 
-  @ApiPropertyOptional({ description: 'Specific pool ID. If omitted, estimates across all matching pools.' })
+  @ApiPropertyOptional({
+    description:
+      'Specific pool ID. If omitted, estimates across all matching pools.',
+  })
   @IsOptional()
   @IsUUID()
   poolId?: string;
@@ -258,7 +273,10 @@ export class SimulateRouteDto {
   @Min(0)
   amountIn: number;
 
-  @ApiPropertyOptional({ description: 'Expected minimum output. Simulation fails if route delivers less.' })
+  @ApiPropertyOptional({
+    description:
+      'Expected minimum output. Simulation fails if route delivers less.',
+  })
   @IsOptional()
   @IsNumber()
   @Min(0)

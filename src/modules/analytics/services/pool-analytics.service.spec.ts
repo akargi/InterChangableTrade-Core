@@ -27,8 +27,7 @@ function metric(
 
 describe('findValueAtOffset', () => {
   const now = new Date('2026-01-02T12:00:00.000Z');
-  const hoursAgo = (hours: number) =>
-    new Date(now.getTime() - hours * HOUR_MS);
+  const hoursAgo = (hours: number) => new Date(now.getTime() - hours * HOUR_MS);
 
   it('returns the value from ~24 hours before the newest sample', () => {
     const metrics = [
@@ -102,8 +101,7 @@ describe('findValueAtOffset', () => {
 
 describe('PoolAnalyticsService.getPoolMetrics', () => {
   const now = new Date('2026-01-02T12:00:00.000Z');
-  const hoursAgo = (hours: number) =>
-    new Date(now.getTime() - hours * HOUR_MS);
+  const hoursAgo = (hours: number) => new Date(now.getTime() - hours * HOUR_MS);
 
   let find: jest.Mock;
   let service: PoolAnalyticsService;
@@ -126,11 +124,7 @@ describe('PoolAnalyticsService.getPoolMetrics', () => {
       where.metricType === MetricType.POOL_TVL ? tvlMetrics : [],
     );
 
-    const result = await service.getPoolMetrics(
-      'pool-1',
-      hoursAgo(168),
-      now,
-    );
+    const result = await service.getPoolMetrics('pool-1', hoursAgo(168), now);
 
     expect(result.tvl).toBe(150);
     expect(result.tvlChange24h).toBeCloseTo(50);
@@ -149,11 +143,7 @@ describe('PoolAnalyticsService.getPoolMetrics', () => {
       where.metricType === MetricType.POOL_TVL ? tvlMetrics : [],
     );
 
-    const result = await service.getPoolMetrics(
-      'pool-1',
-      hoursAgo(168),
-      now,
-    );
+    const result = await service.getPoolMetrics('pool-1', hoursAgo(168), now);
 
     expect(result.tvlChange24h).toBe(0);
   });
@@ -168,11 +158,7 @@ describe('PoolAnalyticsService.getPoolMetrics', () => {
       where.metricType === MetricType.POOL_TVL ? tvlMetrics : [],
     );
 
-    const result = await service.getPoolMetrics(
-      'pool-1',
-      hoursAgo(168),
-      now,
-    );
+    const result = await service.getPoolMetrics('pool-1', hoursAgo(168), now);
 
     expect(result.tvlChange24h).toBe(0);
   });

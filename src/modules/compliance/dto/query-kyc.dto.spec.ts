@@ -38,9 +38,9 @@ describe('QueryKycDto', () => {
     });
 
     const errors = await validate(dto);
-    expect(errors.some((error) => error.property === 'transactionsBlocked')).toBe(
-      true,
-    );
+    expect(
+      errors.some((error) => error.property === 'transactionsBlocked'),
+    ).toBe(true);
   });
 
   it('normalises a lowercase region code', async () => {

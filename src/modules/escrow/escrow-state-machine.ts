@@ -66,10 +66,7 @@ export const ESCROW_TRANSITIONS: Readonly<
 };
 
 /** Returns true when `from -> to` is a legal escrow transition. */
-export function canTransition(
-  from: EscrowStatus,
-  to: EscrowStatus,
-): boolean {
+export function canTransition(from: EscrowStatus, to: EscrowStatus): boolean {
   return ESCROW_TRANSITIONS[from].includes(to);
 }
 

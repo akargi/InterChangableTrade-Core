@@ -54,45 +54,42 @@ describe('escrow state machine', () => {
 
   describe('canTransition', () => {
     it('accepts a normal funding -> approval -> settlement path', () => {
-      expect(
-        canTransition(EscrowStatus.PENDING, EscrowStatus.FUNDED),
-      ).toBe(true);
-      expect(
-        canTransition(EscrowStatus.FUNDED, EscrowStatus.APPROVED),
-      ).toBe(true);
+      expect(canTransition(EscrowStatus.PENDING, EscrowStatus.FUNDED)).toBe(
+        true,
+      );
+      expect(canTransition(EscrowStatus.FUNDED, EscrowStatus.APPROVED)).toBe(
+        true,
+      );
       expect(
         canTransition(EscrowStatus.APPROVED, EscrowStatus.PARTIALLY_RELEASED),
       ).toBe(true);
       expect(
-        canTransition(
-          EscrowStatus.PARTIALLY_RELEASED,
-          EscrowStatus.SETTLED,
-        ),
+        canTransition(EscrowStatus.PARTIALLY_RELEASED, EscrowStatus.SETTLED),
       ).toBe(true);
     });
 
     it('rejects jumps that skip the funding or approval steps', () => {
-      expect(
-        canTransition(EscrowStatus.PENDING, EscrowStatus.APPROVED),
-      ).toBe(false);
-      expect(
-        canTransition(EscrowStatus.PENDING, EscrowStatus.SETTLED),
-      ).toBe(false);
+      expect(canTransition(EscrowStatus.PENDING, EscrowStatus.APPROVED)).toBe(
+        false,
+      );
+      expect(canTransition(EscrowStatus.PENDING, EscrowStatus.SETTLED)).toBe(
+        false,
+      );
       expect(
         canTransition(EscrowStatus.FUNDED, EscrowStatus.PARTIALLY_RELEASED),
       ).toBe(false);
     });
 
     it('rejects transitions out of terminal statuses', () => {
-      expect(
-        canTransition(EscrowStatus.SETTLED, EscrowStatus.FUNDED),
-      ).toBe(false);
-      expect(
-        canTransition(EscrowStatus.REFUNDED, EscrowStatus.SETTLED),
-      ).toBe(false);
-      expect(
-        canTransition(EscrowStatus.CANCELLED, EscrowStatus.PENDING),
-      ).toBe(false);
+      expect(canTransition(EscrowStatus.SETTLED, EscrowStatus.FUNDED)).toBe(
+        false,
+      );
+      expect(canTransition(EscrowStatus.REFUNDED, EscrowStatus.SETTLED)).toBe(
+        false,
+      );
+      expect(canTransition(EscrowStatus.CANCELLED, EscrowStatus.PENDING)).toBe(
+        false,
+      );
     });
   });
 
