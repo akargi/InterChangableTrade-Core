@@ -1,6 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
-import { AmlRiskLevel } from '../enums/aml-risk-level.enum';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { AmlFlagStatus } from '../enums/aml-flag-status.enum';
 
 /**

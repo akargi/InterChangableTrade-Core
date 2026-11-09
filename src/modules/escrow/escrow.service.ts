@@ -587,7 +587,9 @@ export class EscrowService {
     const releasedStroops = EscrowService.toStroops(escrow.releasedAmount);
     const remainingStroops = totalStroops - releasedStroops;
     const releaseStroops =
-      dto.amount !== undefined ? EscrowService.toStroops(dto.amount) : remainingStroops;
+      dto.amount !== undefined
+        ? EscrowService.toStroops(dto.amount)
+        : remainingStroops;
 
     if (releaseStroops <= 0n || releaseStroops > remainingStroops) {
       throw new BadRequestException(
@@ -673,7 +675,9 @@ export class EscrowService {
           {
             releaseAmount,
             totalReleased: escrow.releasedAmount,
-            remaining: EscrowService.fromStroops(remainingStroops - releaseStroops),
+            remaining: EscrowService.fromStroops(
+              remainingStroops - releaseStroops,
+            ),
           },
           queryRunner.manager,
         );
@@ -760,7 +764,7 @@ export class EscrowService {
     assertTransition(escrow.status, EscrowStatus.EXPIRED);
 
     escrow.status = EscrowStatus.EXPIRED;
-    const saved = await this.escrowRepo.save(escrow);
+    await this.escrowRepo.save(escrow);
 
     await this.timelineService.addEvent(
       escrowId,
@@ -971,10 +975,16 @@ export class EscrowService {
   ): Promise<EscrowAccount> {
     const escrow = await this.getEscrowOrThrow(escrowId);
 
+    if (escrow.status !== EscrowStatus.DISPUTED) {
+      throw new BadRequestException(
+        `Cannot resolve dispute on escrow in status: ${escrow.status}`,
+      );
+    }
+
     const targetStatus = releaseToCreator
       ? EscrowStatus.REFUNDED
       : EscrowStatus.SETTLED;
-    assertTransition(escrow.status, targetStatus);
+    assertTransition(EscrowStatus.DISPUTED, targetStatus);
 
     escrow.status = targetStatus;
     escrow.refundedAt = releaseToCreator ? new Date() : null;

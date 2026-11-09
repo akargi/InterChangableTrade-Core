@@ -1,14 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsString,
-  IsNumber,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsArray, IsOptional, IsString, IsNumber } from 'class-validator';
 import { AmlRiskLevel } from '../enums/aml-risk-level.enum';
 
 /**

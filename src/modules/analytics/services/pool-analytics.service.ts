@@ -420,7 +420,7 @@ export class PoolAnalyticsService {
       try {
         const poolMetrics = await this.getPoolMetrics(poolId, dateFrom, dateTo);
         metrics.push({ ...poolMetrics, rank: 0 });
-      } catch (error) {
+      } catch {
         this.logger.warn(`Failed to get metrics for pool ${poolId}`);
       }
     }

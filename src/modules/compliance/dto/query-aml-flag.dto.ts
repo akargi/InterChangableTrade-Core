@@ -1,14 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsString,
-  IsBoolean,
-  Max,
-  Min,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { AmlFlagStatus } from '../enums/aml-flag-status.enum';
 import { AmlRiskLevel } from '../enums/aml-risk-level.enum';
 import { PaginationQueryDto } from '@app/common';

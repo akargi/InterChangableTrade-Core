@@ -9,11 +9,9 @@ import { DataSource, QueryRunner } from 'typeorm';
 import { EscrowService } from './escrow.service';
 import { EscrowAccount } from './entities/escrow-account.entity';
 import { EscrowSignatory } from './entities/escrow-signatory.entity';
-import { EscrowMilestone } from './entities/escrow-milestone.entity';
 import { EscrowStatus } from './enums/escrow-status.enum';
 import { EscrowType } from './enums/escrow-type.enum';
 import { SignatoryRole } from './enums/signatory-role.enum';
-import { EscrowTimelineService } from './services/escrow-timeline.service';
 import { EscrowEvents } from './events/escrow.events';
 
 type RepoMock = {
@@ -526,7 +524,7 @@ describe('EscrowService', () => {
         { ...mockCounterpartySignatory, hasApproved: false },
       ]);
 
-      const result = await service.approveEscrow('escrow-1', userId, {
+      await service.approveEscrow('escrow-1', userId, {
         note: 'Looks good',
       });
 
@@ -604,7 +602,11 @@ describe('EscrowService', () => {
         { ...mockCounterpartySignatory, hasApproved: false },
       ]);
 
-      const result = await service.approveEscrow('escrow-1', counterpartyId, {});
+      const result = await service.approveEscrow(
+        'escrow-1',
+        counterpartyId,
+        {},
+      );
 
       expect(result.status).toBe(EscrowStatus.APPROVED);
       expect(eventEmitter.emit).toHaveBeenCalledWith(
@@ -614,7 +616,7 @@ describe('EscrowService', () => {
       expect(timelineService.addEvent).toHaveBeenCalledWith(
         'escrow-1',
         expect.any(String),
-        userId,
+        counterpartyId,
         expect.stringContaining('Signature threshold reached'),
         undefined,
         expect.anything(),
@@ -669,6 +671,7 @@ describe('EscrowService', () => {
           },
         ],
       } as any);
+      created.releasedAmount = created.releasedAmount ?? '0.0000000';
       expect(created.status).toBe(EscrowStatus.PENDING);
 
       escrowRepo.findOne.mockResolvedValue(created);
@@ -715,7 +718,7 @@ describe('EscrowService', () => {
         mockCounterpartySignatory as any,
       ]);
 
-      const result = await service.revokeApproval('escrow-1', userId);
+      await service.revokeApproval('escrow-1', userId);
 
       expect(signatoryRepo.save).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -968,10 +971,12 @@ describe('EscrowService', () => {
           service.releaseFunds('escrow-1', userId, userRole, { amount: 500 }),
           service.releaseFunds('escrow-1', userId, userRole, { amount: 500 }),
         ].map((p) =>
-          p.then((v) => ({ ok: true as const, v })).catch((e) => ({
-            ok: false as const,
-            e,
-          })),
+          p
+            .then((v) => ({ ok: true as const, v }))
+            .catch((e) => ({
+              ok: false as const,
+              e,
+            })),
         ),
       );
 
