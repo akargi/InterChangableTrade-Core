@@ -206,6 +206,7 @@ Write invocations and contract deployments require a funded source account via
 - [Wallet Signing Policy](docs/wallet-signing.md) — source binding, operation
   allowlist, step-up auth and signing audit
 - [API Accessibility Guidelines](docs/accessibility.md) — inclusive API design and semantic contracts
+- [Drips Wave readiness (maintainer preparation)](docs/DRIPS_WAVE_READINESS.md) — verified program notes, contributor checks, and a proposed issue slate (not an application)
 - API reference — Swagger UI at `/api/docs` when the app is running
 
 ## Related Repositories
